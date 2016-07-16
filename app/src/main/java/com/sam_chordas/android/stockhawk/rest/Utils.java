@@ -52,7 +52,11 @@ public class Utils {
   }
 
   public static String truncateBidPrice(String bidPrice){
-    bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
+    try {
+      bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return bidPrice;
   }
 

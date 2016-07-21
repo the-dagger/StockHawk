@@ -50,7 +50,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     private Intent mServiceIntent;
     private ItemTouchHelper mItemTouchHelper;
     private static final int CURSOR_LOADER_ID = 0;
-    private QuoteCursorAdapter mCursorAdapter;
+    public static QuoteCursorAdapter mCursorAdapter;
     private Context mContext;
     private Cursor mCursor;
     boolean isConnected;
@@ -94,9 +94,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                         mCursor = mCursorAdapter.getCursor();
                         mCursor.moveToPosition(position);
                         Log.e("Name", mCursor.getString(1));
-                        detailActivityIntent.putExtra("SYMBOL", mCursor.getString(1));
+                        detailActivityIntent.putExtra("NAME",mCursor.getString(1));
                         startActivity(detailActivityIntent);
-                        mCursor.close();
+//                        mCursor.close();
                         //TODO:
                         // do something on item click
                     }
@@ -122,11 +122,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                             new String[]{QuoteColumns.SYMBOL}, QuoteColumns.SYMBOL + "= ?",
                                             new String[]{input.toString()}, null);
                                     if (c.getCount() != 0) {
-//                                        Toast toast =
-//                                                Toast.makeText(MyStocksActivity.this, "This stock is already saved!",
-//                                                        Toast.LENGTH_LONG);
-//                                        toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
-//                                        toast.show();
                                         Snackbar.make(Cview, "This stock is already saved!", Snackbar.LENGTH_SHORT).show();
                                         return;
                                     } else {
@@ -237,7 +232,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     @Override
     protected void onPause() {
         super.onPause();
-        mCursor.close();
+//        mCursor.close();
     }
 
     @Override

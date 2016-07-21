@@ -24,16 +24,19 @@ public class Utils {
     public static ArrayList quoteJsonToContentVals(String JSON) {
         ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
         JSONObject jsonObject = null;
+        JSONObject jsonObject1 = null;
         JSONArray resultsArray = null;
         try {
             jsonObject = new JSONObject(JSON);
             if (jsonObject != null && jsonObject.length() != 0) {
                 jsonObject = jsonObject.getJSONObject("query");
+                jsonObject1 = jsonObject;
                 int count = Integer.parseInt(jsonObject.getString("count"));
                 if (count == 1) {
                     jsonObject = jsonObject.getJSONObject("results")
                             .getJSONObject("quote");
                     batchOperations.add(buildBatchOperation(jsonObject));
+//                    batchOperations.add(stringInsertOperation(jsonObject1));
                 } else {
                     resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
 
@@ -43,6 +46,7 @@ public class Utils {
                             batchOperations.add(buildBatchOperation(jsonObject));
                         }
                     }
+//                    batchOperations.add(stringInsertOperation(jsonObject1));
                 }
             }
         } catch (JSONException e) {
@@ -71,13 +75,24 @@ public class Utils {
         }
         else
         round = (double) Math.round(Double.parseDouble(change) * 100) / 100;
-        Log.e("Round", String.valueOf(round));
+//        Log.e("Round", String.valueOf(round));
         change = String.format("%.2f", round);
         StringBuffer changeBuffer = new StringBuffer(change);
         changeBuffer.insert(0, weight);
         changeBuffer.append(ampersand);
         change = changeBuffer.toString();
         return change;
+    }
+
+    public static ContentProviderOperation stringInsertOperation(JSONObject jsonObject){
+        ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
+                QuoteProvider.Quotes.CONTENT_URI);
+        try {
+            builder.withValue(QuoteColumns.CREATED,jsonObject.getString("created"));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return builder.build();
     }
 
     public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject) {

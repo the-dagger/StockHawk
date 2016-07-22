@@ -30,7 +30,6 @@ public class Utils {
             jsonObject = new JSONObject(JSON);
             if (jsonObject != null && jsonObject.length() != 0) {
                 jsonObject = jsonObject.getJSONObject("query");
-                jsonObject1 = jsonObject;
                 int count = Integer.parseInt(jsonObject.getString("count"));
                 if (count == 1) {
                     jsonObject = jsonObject.getJSONObject("results")
@@ -53,6 +52,10 @@ public class Utils {
             Log.e(LOG_TAG, "String to JSON failed: " + e);
         }
         return batchOperations;
+    }
+
+    public static ArrayList<Float> historyToArrayList(String JSON){
+        return null;
     }
 
     public static String truncateBidPrice(String bidPrice) {

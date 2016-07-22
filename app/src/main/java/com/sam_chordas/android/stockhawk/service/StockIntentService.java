@@ -28,14 +28,36 @@ public class StockIntentService extends IntentService {
         Bundle args = new Bundle();
         if (intent.getStringExtra("tag").equals("add")) {
             args.putString("symbol", intent.getStringExtra("symbol"));
+            try {
+                stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args));
+            } catch (Exception e) {
+                e.printStackTrace();
+                MyStocksActivity.showSnackbar("Error fetching stock");
+            }
+        }
+        else if(intent.getStringExtra("tag").equals("historical")){
+            Log.e("Historical Intent","true");
+            args.putString("name",intent.getStringExtra("name"));
+            args.putString("currdate",intent.getStringExtra("currdate"));
+            args.putString("weekbef",intent.getStringExtra("weekbef"));{
+                try {
+                    stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    MyStocksActivity.showSnackbar("Error fetching stock");
+                }
+            }
+
+        }
+        else if(intent.getStringExtra("tag").equals("init")){
+            try {
+                stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args));
+            } catch (Exception e) {
+                e.printStackTrace();
+                MyStocksActivity.showSnackbar("Error fetching stock");
+            }
         }
         // We can call OnRunTask from the intent service to force it to run immediately instead of
         // scheduling a task.
-        try {
-            stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args));
-        } catch (Exception e) {
-            e.printStackTrace();
-            MyStocksActivity.showSnackbar("Error fetching stock");
-        }
     }
 }

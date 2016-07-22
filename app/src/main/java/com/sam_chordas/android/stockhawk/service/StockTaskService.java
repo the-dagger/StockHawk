@@ -51,6 +51,8 @@ public class StockTaskService extends GcmTaskService {
         return response.body().string();
     }
 
+
+
     @Override
     public int onRunTask(TaskParams params) {
         Cursor initQueryCursor;
@@ -58,6 +60,7 @@ public class StockTaskService extends GcmTaskService {
             mContext = this;
         }
         StringBuilder urlStringBuilder = new StringBuilder();
+        if (params.getTag().equals("init") || params.getTag().equals("periodic")) {
         try {
             // Base URL for the Yahoo query
             urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
@@ -66,7 +69,6 @@ public class StockTaskService extends GcmTaskService {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        if (params.getTag().equals("init") || params.getTag().equals("periodic")) {
             isUpdate = true;
             initQueryCursor = mContext.getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
                     new String[]{"Distinct " + QuoteColumns.SYMBOL}, null,
@@ -97,12 +99,26 @@ public class StockTaskService extends GcmTaskService {
         } else if (params.getTag().equals("add")) {
             isUpdate = false;
             // get symbol from params.getExtra and build query
+            try {
+            urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
+                urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.quotes where symbol "
+                        + "in (", "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             String stockInput = params.getExtras().getString("symbol");
             try {
                 urlStringBuilder.append(URLEncoder.encode("\"" + stockInput + "\")", "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
+        }
+        else if(params.getTag().equals("historical")) {
+            Log.e("Historical Data", "true");
+            urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22" +
+                    params.getExtras().get("name") + "%22%20and%20startDate%20%3D%20%22" +
+                    params.getExtras().get("weekbef") + "%22%20and%20endDate%20%3D%20%22" +
+                    params.getExtras().get("currdate") + "%22");
         }
         // finalize the URL for the API query.
         urlStringBuilder.append("&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables."

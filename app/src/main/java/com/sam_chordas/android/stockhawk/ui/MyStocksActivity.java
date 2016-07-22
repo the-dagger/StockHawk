@@ -37,6 +37,8 @@ import com.sam_chordas.android.stockhawk.service.StockIntentService;
 import com.sam_chordas.android.stockhawk.service.StockTaskService;
 import com.sam_chordas.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
 
+import org.joda.time.DateTime;
+
 public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
@@ -50,7 +52,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     private Intent mServiceIntent;
     private ItemTouchHelper mItemTouchHelper;
     private static final int CURSOR_LOADER_ID = 0;
-    public static QuoteCursorAdapter mCursorAdapter;
+    private QuoteCursorAdapter mCursorAdapter;
     private Context mContext;
     private Cursor mCursor;
     boolean isConnected;
@@ -85,18 +87,25 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
-
         mCursorAdapter = new QuoteCursorAdapter(this, null);
+        final DateTime now = new DateTime();
+        final DateTime lastWeek = now.minusDays(10);
+        final String nowDate = now.toString().substring(0, now.toString().indexOf('T'));
+        final String weekBefDate = lastWeek.toString().substring(0, lastWeek.toString().indexOf('T'));
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this,
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
+                        Log.e("nowDate", String.valueOf(nowDate));
+                        Log.e("lasteWeek", String.valueOf(weekBefDate));
                         mCursor = mCursorAdapter.getCursor();
                         mCursor.moveToPosition(position);
                         Log.e("Name", mCursor.getString(1));
-                        detailActivityIntent.putExtra("NAME",mCursor.getString(1));
+                        detailActivityIntent.putExtra("currdate",nowDate);
+                        detailActivityIntent.putExtra("weekbef",weekBefDate);
+                        detailActivityIntent.putExtra("name",mCursor.getString(1));
                         startActivity(detailActivityIntent);
-//                        mCursor.close();
+                        mCursor.close();
                         //TODO:
                         // do something on item click
                     }
@@ -232,7 +241,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     @Override
     protected void onPause() {
         super.onPause();
-//        mCursor.close();
     }
 
     @Override

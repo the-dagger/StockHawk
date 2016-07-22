@@ -34,6 +34,7 @@ public class StockTaskService extends GcmTaskService {
     private Context mContext;
     private StringBuilder mStoredSymbols = new StringBuilder();
     private boolean isUpdate;
+    private String tag;
 
     public StockTaskService() {
     }
@@ -61,6 +62,7 @@ public class StockTaskService extends GcmTaskService {
         }
         StringBuilder urlStringBuilder = new StringBuilder();
         if (params.getTag().equals("init") || params.getTag().equals("periodic")) {
+            tag = params.getTag();
         try {
             // Base URL for the Yahoo query
             urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
@@ -97,6 +99,7 @@ public class StockTaskService extends GcmTaskService {
                 }
             }
         } else if (params.getTag().equals("add")) {
+            tag = params.getTag();
             isUpdate = false;
             // get symbol from params.getExtra and build query
             try {
@@ -119,6 +122,7 @@ public class StockTaskService extends GcmTaskService {
                     params.getExtras().get("name") + "%22%20and%20startDate%20%3D%20%22" +
                     params.getExtras().get("weekbef") + "%22%20and%20endDate%20%3D%20%22" +
                     params.getExtras().get("currdate") + "%22");
+            tag = params.getTag();
         }
         // finalize the URL for the API query.
         urlStringBuilder.append("&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables."
@@ -134,18 +138,23 @@ public class StockTaskService extends GcmTaskService {
                 getResponse = fetchData(urlString);
                 Log.e("URL",urlString);
                 result = GcmNetworkManager.RESULT_SUCCESS;
-                try {
-                    ContentValues contentValues = new ContentValues();
-                    // update ISCURRENT to 0 (false) so new data is current
-                    if (isUpdate) {
-                        contentValues.put(QuoteColumns.ISCURRENT, 0);
-                        mContext.getContentResolver().update(QuoteProvider.Quotes.CONTENT_URI, contentValues,
-                                null, null);
+                if(tag.equals("init") || tag.equals("periodic") || tag.equals("add")) {
+                    try {
+                        ContentValues contentValues = new ContentValues();
+                        // update ISCURRENT to 0 (false) so new data is current
+                        if (isUpdate) {
+                            contentValues.put(QuoteColumns.ISCURRENT, 0);
+                            mContext.getContentResolver().update(QuoteProvider.Quotes.CONTENT_URI, contentValues,
+                                    null, null);
+                        }
+                        mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
+                                Utils.quoteJsonToContentVals(getResponse));
+                    } catch (RemoteException | OperationApplicationException e) {
+                        Log.e(LOG_TAG, "Error applying batch insert", e);
                     }
-                    mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
-                            Utils.quoteJsonToContentVals(getResponse));
-                } catch (RemoteException | OperationApplicationException e) {
-                    Log.e(LOG_TAG, "Error applying batch insert", e);
+                }
+                else{
+                    //TODO : Fetch historical data from Yahoo
                 }
             } catch (IOException e) {
                 e.printStackTrace();

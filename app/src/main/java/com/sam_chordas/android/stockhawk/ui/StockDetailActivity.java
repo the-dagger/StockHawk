@@ -78,12 +78,34 @@ public class StockDetailActivity extends AppCompatActivity {
             Log.e("value", String.valueOf(values.get(i)));
             Log.e("stockarr", String.valueOf(stockArr[i]));
         }
+        float[] trimmedStock = new float[15];
+        String[] trimmedLable = {"","","","","","","","","","","","","","","",};
+        int j=values.size() - 15;
+        if(values.size()>15) {
+            int i =0;
+            while(i<15){
+                trimmedStock[i] = stockArr[j];
+                i++;
+                j++;
+            }
+
+        }
+        LineSet dataset;
         c.close();
-        LineSet dataset = new LineSet(lable, stockArr);
-        dataset.setColor(Color.parseColor("#758cbb"))
-                .setFill(Color.parseColor("#2d374c"))
-                .setDotsColor(Color.parseColor("#758cbb"))
-                .setThickness(4);
+        if(values.size()>15) {
+            dataset = new LineSet(trimmedLable, trimmedStock);
+            dataset.setColor(Color.parseColor("#758cbb"))
+                    .setFill(Color.parseColor("#2d374c"))
+                    .setDotsColor(Color.parseColor("#758cbb"))
+                    .setThickness(4);
+        }
+        else{
+            dataset = new LineSet(lable, stockArr);
+            dataset.setColor(Color.parseColor("#758cbb"))
+                    .setFill(Color.parseColor("#2d374c"))
+                    .setDotsColor(Color.parseColor("#758cbb"))
+                    .setThickness(4);
+        }
         lineChartView
                 .setAxisBorderValues(Collections.min(values).intValue()-1, Collections.max(values).intValue()+1)
                 .setLabelsColor(Color.parseColor("#6a84c3"));

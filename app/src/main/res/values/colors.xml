@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="accent">#009688</color>
+    <color name="accent">#758cbb</color>
     <color name="material_red_700">#D50000</color>
     <color name="material_green_700">#00C853</color>
     <color name="colorPrimary">#212121</color>

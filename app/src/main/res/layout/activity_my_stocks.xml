@@ -9,7 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.melnykov.fab.FloatingActionButton
+    <!--<com.melnykov.fab.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:src="@drawable/ic_add_white_24dp"-->
+        <!--fab:fab_colorNormal="@color/accent"-->
+        <!--fab:fab_colorPressed="@color/accent"-->
+        <!--fab:fab_colorRipple="@color/ripple"-->
+        <!--fab:fab_shadow="true"-->
+        <!--fab:fab_type="normal"-->
+        <!--fab:layout_anchor="recycler_view"-->
+        <!--fab:layout_anchorGravity="bottom | end" />-->
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,5 +36,5 @@
         fab:fab_shadow="true"
         fab:fab_type="normal"
         fab:layout_anchor="recycler_view"
-        fab:layout_anchorGravity="bottom | end" />
+        fab:layout_anchorGravity="bottom | end"/>
 </android.support.design.widget.CoordinatorLayout>

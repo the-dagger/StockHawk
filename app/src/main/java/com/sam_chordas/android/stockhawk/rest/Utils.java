@@ -103,7 +103,14 @@ public class Utils {
                 QuoteProvider.Quotes.CONTENT_URI);
         try {
             String change = jsonObject.getString("Change");
+            builder.withValue(QuoteColumns.NAME,jsonObject.getString("Name"));
+            builder.withValue(QuoteColumns.DAYSHIGH,jsonObject.getString("DaysHigh"));
+            builder.withValue(QuoteColumns.DAYSLOW,jsonObject.getString("DaysLow"));
+            builder.withValue(QuoteColumns.YEARHIGH,jsonObject.getString("YearHigh"));
+            builder.withValue(QuoteColumns.YEARLOW,jsonObject.getString("YearLow"));
+            builder.withValue(QuoteColumns.LASTTRADE,jsonObject.getString("LastTradePriceOnly"));
             builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString("symbol"));
+            builder.withValue(QuoteColumns.TODAYRANGE,jsonObject.getString("DaysRange"));
             builder.withValue(QuoteColumns.BIDPRICE, truncateBidPrice(jsonObject.getString("Bid")));
             builder.withValue(QuoteColumns.PERCENT_CHANGE, truncateChange(
                     jsonObject.getString("ChangeinPercent"), true));

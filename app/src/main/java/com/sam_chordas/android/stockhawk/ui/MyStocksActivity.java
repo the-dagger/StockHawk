@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
-import com.melnykov.fab.FloatingActionButton;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
@@ -100,7 +100,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                         Log.e("lasteWeek", String.valueOf(weekBefDate));
                         mCursor = mCursorAdapter.getCursor();
                         mCursor.moveToPosition(position);
-                        Log.e("Name", mCursor.getString(1));
+                        Log.e("Name", mCursor.getString(mCursor.getColumnIndex(QuoteColumns.BIDPRICE)));
                         detailActivityIntent.putExtra("currdate",nowDate);
                         detailActivityIntent.putExtra("weekbef",weekBefDate);
                         detailActivityIntent.putExtra("name",mCursor.getString(1));
@@ -114,7 +114,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.attachToRecyclerView(recyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

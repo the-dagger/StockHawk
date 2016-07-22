@@ -1,6 +1,6 @@
 <resources>
   <string name="app_name">Stock Hawk</string>
-  <string name="symbol">Symbol</string>
+  <string name="name">Symbol</string>
   <string name="action_example">Example action</string>
   <string name="scrub_empty">Tap and hold the graph to scrub.</string>
   <string name="scrub_format">Value: %1$s</string>
@@ -11,8 +11,11 @@
   <string name="input_hint">FB</string>
   <string name="input_prefill"></string>
   <string name="network_toast">Uh-oh! This app requires an internet connection</string>
-  <string name="minimum_price">Minimum Price :</string>
-  <string name="maximum_price">Maximum Price :</string>
-  <string name="current_price">Current Price :</string>
+  <string name="minimum_price">Today\'s Minimum</string>
+  <string name="maximum_price">Today\'s Maximum</string>
+  <string name="current_price">Last Trade Price</string>
   <string name="click_on_the_graph_to_view_stock_s_value">Click on graph to view the value</string>
+  <string name="stock_s_value_over_time">Stock\'s Value over Time</string>
+  <string name="annual_minimum">Annual Minimum</string>
+  <string name="annual_max">Annual Maximum</string>
 </resources>

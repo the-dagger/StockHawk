@@ -1,63 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scrollbars="none">
 
-    <com.db.chart.view.LineChartView
-        android:id="@+id/linechart"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/stockSymbol"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/symbol"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        android:textColor="@color/accent" />
+        <com.db.chart.view.LineChartView
+            android:id="@+id/linechart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="16dp"/>
 
-    <TextView
-        android:id="@+id/scrubTView"
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    app:cardCornerRadius="4dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginRight="16dp">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/click_on_the_graph_to_view_stock_s_value"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        android:textColor="@color/accent" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/currentPrice"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/current_price"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        android:textColor="@color/accent" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            style="@style/StockDetailTextStyle"
+            android:text="@string/name" />
 
-    <TextView
-        android:id="@+id/maxPrice"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/maximum_price"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        android:textColor="@color/accent" />
+        <TextView
+            style="@style/StockDetailTextStyle"
+            android:text="@string/current_price" />
 
-    <TextView
-        android:id="@+id/minPrice"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/minimum_price"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        android:textColor="@color/accent" />
-</LinearLayout>
+        <TextView
+            style="@style/StockDetailTextStyle"
+            android:text="@string/minimum_price" />
+
+        <TextView
+            style="@style/StockDetailTextStyle"
+            android:text="@string/maximum_price" />
+
+        <TextView
+            style="@style/StockDetailTextStyle"
+            android:text="@string/annual_minimum" />
+
+        <TextView
+            style="@style/StockDetailTextStyle"
+            android:text="@string/annual_max"/>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/stockName"
+                android:gravity="end"
+                android:textColor="@color/accent"
+                style="@style/StockDetailTextStyle" />
+
+            <TextView
+                android:id="@+id/lastTrade"
+                android:gravity="end"
+                android:textColor="@color/accent"
+                style="@style/StockDetailTextStyle"
+                />
+
+            <TextView
+                android:id="@+id/minPrice"
+                android:gravity="end"
+                android:textColor="@color/accent"
+                style="@style/StockDetailTextStyle" />
+
+            <TextView
+                android:id="@+id/maxPrice"
+                android:gravity="end"
+                android:textColor="@color/accent"
+                style="@style/StockDetailTextStyle"
+                />
+
+            <TextView
+                style="@style/StockDetailTextStyle"
+                android:id="@+id/annual_min"
+                android:textColor="@color/accent"
+                android:gravity="end"
+                />
+
+            <TextView
+                style="@style/StockDetailTextStyle"
+                android:gravity="end"
+                android:textColor="@color/accent"
+                android:id="@+id/annual_max" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

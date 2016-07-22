@@ -3,13 +3,17 @@ package com.sam_chordas.android.stockhawk.ui;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.db.chart.Tools;
 import com.db.chart.model.LineSet;
+import com.db.chart.view.AxisController;
+import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
@@ -25,41 +29,22 @@ import java.util.Collections;
 
 public class StockDetailActivity extends AppCompatActivity {
 
-    private Cursor c;
-    private String stockName;
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        c.close();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
-                new String[]{QuoteColumns.BIDPRICE},
-                QuoteColumns.SYMBOL + " = ? ",
-                new String[]{stockName},
-                null);
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_detail);
         LineChartView lineChartView = (LineChartView) findViewById(R.id.linechart);
-        stockName = getIntent().getStringExtra("name");
+        String stockSymbol = getIntent().getStringExtra("name");
         Intent stockIntent = new Intent(this,StockIntentService.class);
         stockIntent.putExtra("tag","historical");
         stockIntent.putExtra("name",getIntent().getStringExtra("name"));
         stockIntent.putExtra("currdate",getIntent().getStringExtra("currdate"));
         stockIntent.putExtra("weekbef",getIntent().getStringExtra("weekbef"));
         startService(stockIntent);
-        c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
-                new String[]{QuoteColumns.BIDPRICE},
+        Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
+                null,
                 QuoteColumns.SYMBOL + " = ? ",
-                new String[]{stockName},
+                new String[]{stockSymbol},
                 null);
         if (c != null) {
             c.moveToFirst();
@@ -91,30 +76,48 @@ public class StockDetailActivity extends AppCompatActivity {
 
         }
         LineSet dataset;
-        c.close();
         if(values.size()>15) {
             dataset = new LineSet(trimmedLable, trimmedStock);
             dataset.setColor(Color.parseColor("#758cbb"))
-                    .setFill(Color.parseColor("#2d374c"))
+//                    .setFill(Color.parseColor("#2d374c"))
                     .setDotsColor(Color.parseColor("#758cbb"))
                     .setThickness(4);
         }
         else{
             dataset = new LineSet(lable, stockArr);
             dataset.setColor(Color.parseColor("#758cbb"))
-                    .setFill(Color.parseColor("#2d374c"))
+//                    .setFill(Color.parseColor("#2d374c"))
                     .setDotsColor(Color.parseColor("#758cbb"))
                     .setThickness(4);
         }
+        Paint gridPaint = new Paint();
+        gridPaint.setColor(Color.parseColor("#ffffff"));
+        gridPaint.setStyle(Paint.Style.FILL);
+        gridPaint.setAntiAlias(true);
+        gridPaint.setStrokeWidth(Tools.fromDpToPx(.1f));
         lineChartView
-                .setAxisBorderValues(Collections.min(values).intValue()-1, Collections.max(values).intValue()+1)
-                .setLabelsColor(Color.parseColor("#6a84c3"));
+                .setGrid(ChartView.GridType.FULL,gridPaint)
+                .setAxisBorderValues(Collections.min(values).intValue(), Collections.max(values).intValue()+1)
+                .setLabelsColor(Color.parseColor("#6a84c3"))
+                .setXAxis(false)
+                .setYLabels(AxisController.LabelPosition.INSIDE)
+                .setYAxis(false);
         lineChartView.addData(dataset);
         lineChartView.show();
-        TextView stockSymbol = (TextView) findViewById(R.id.stockSymbol);
-        stockSymbol.append("     :     " + stockName.toUpperCase());
-
-
+        TextView stockName = (TextView) findViewById(R.id.stockName);
+        c.moveToLast();
+        stockName.append(c.getString(c.getColumnIndex(QuoteColumns.SYMBOL)).toUpperCase());
+        TextView lastTrade = (TextView) findViewById(R.id.lastTrade);
+        lastTrade.append(c.getString(c.getColumnIndex(QuoteColumns.LASTTRADE)));
+        TextView todayMax = (TextView) findViewById(R.id.maxPrice);
+        todayMax.append(c.getString(c.getColumnIndex(QuoteColumns.DAYSHIGH)));
+        TextView todayMin = (TextView) findViewById(R.id.minPrice);
+        todayMin.append(c.getString(c.getColumnIndex(QuoteColumns.DAYSLOW)));
+        TextView annualMin = (TextView) findViewById(R.id.annual_min);
+        annualMin.append(c.getString(c.getColumnIndex(QuoteColumns.YEARLOW)));
+        TextView annualMax = (TextView) findViewById(R.id.annual_max);
+        annualMax.append(c.getString(c.getColumnIndex(QuoteColumns.DAYSHIGH)));
+        c.close();
     }
 
 

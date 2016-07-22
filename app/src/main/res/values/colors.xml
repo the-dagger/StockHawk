@@ -5,4 +5,6 @@
     <color name="material_green_700">#00C853</color>
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#000000</color>
+    <color name="lable">#6a84c3</color>
+    <color name="textDetail">#C1C1C1</color>
 </resources>

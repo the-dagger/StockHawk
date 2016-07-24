@@ -18,4 +18,5 @@
   <string name="stock_s_value_over_time">Stock\'s Value over Time</string>
   <string name="annual_minimum">Annual Minimum</string>
   <string name="annual_max">Annual Maximum</string>
+  <string name="your_stocks">Your Stocks</string>
 </resources>

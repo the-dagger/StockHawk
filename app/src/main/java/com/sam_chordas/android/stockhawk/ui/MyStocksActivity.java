@@ -50,14 +50,13 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
      */
     private CharSequence mTitle;
     private Intent mServiceIntent;
-    private ItemTouchHelper mItemTouchHelper;
     private static final int CURSOR_LOADER_ID = 0;
     private QuoteCursorAdapter mCursorAdapter;
     private Context mContext;
     private Cursor mCursor;
-    boolean isConnected;
-    static CoordinatorLayout Cview;
-    Intent detailActivityIntent;
+    private boolean isConnected;
+    private static CoordinatorLayout cView;
+    private Intent detailActivityIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +69,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         setContentView(R.layout.activity_my_stocks);
-        Cview = (CoordinatorLayout) findViewById(R.id.cLayout);
+        cView = (CoordinatorLayout) findViewById(R.id.cLayout);
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
         mServiceIntent = new Intent(this, StockIntentService.class);
@@ -130,7 +129,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                             new String[]{QuoteColumns.SYMBOL}, QuoteColumns.SYMBOL + "= ?",
                                             new String[]{input.toString()}, null);
                                     if (c.getCount() != 0) {
-                                        Snackbar.make(Cview, "This stock is already saved!", Snackbar.LENGTH_SHORT).show();
+                                        Snackbar.make(cView, "This stock is already saved!", Snackbar.LENGTH_SHORT).show();
                                         return;
                                     } else {
                                         // Add the stock to DB
@@ -149,7 +148,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         });
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
 
         mTitle = getTitle();
@@ -182,7 +181,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     }
 
     public void networkToast() {
-        Snackbar.make(Cview, getString(R.string.network_toast), Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(cView, getString(R.string.network_toast), Snackbar.LENGTH_SHORT).show();
     }
 
     public void restoreActionBar() {
@@ -248,7 +247,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     }
 
     public static void showSnackbar(String string) {
-        Snackbar.make(Cview, string, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(cView, string, Snackbar.LENGTH_SHORT).show();
     }
 
 }

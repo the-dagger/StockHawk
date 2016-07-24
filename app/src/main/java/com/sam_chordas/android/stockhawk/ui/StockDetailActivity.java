@@ -117,7 +117,7 @@ public class StockDetailActivity extends AppCompatActivity {
         annualMin.append(c.getString(c.getColumnIndex(QuoteColumns.YEARLOW)));
         TextView annualMax = (TextView) findViewById(R.id.annual_max);
         annualMax.append(c.getString(c.getColumnIndex(QuoteColumns.DAYSHIGH)));
-        c.close();
+//        c.close();
     }
 
 

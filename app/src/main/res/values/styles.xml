@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat">
@@ -21,10 +21,11 @@
     <style name="StockSymbolTextStyle">
         <item name="android:textSize">25sp</item>
         <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance" tools:targetApi="lollipop">@android:style/TextAppearance.Material.Title</item>
     </style>
 
     <style name="StockDetailTextStyle">
-        <item name="android:textAppearance">@android:style/TextAppearance.DeviceDefault.Large</item>
+        <item name="android:textAppearance" tools:targetApi="lollipop">@android:style/TextAppearance.Material.Title</item>
         <item name="android:textColor">#C1C1C1</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>

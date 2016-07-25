@@ -1,13 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/widget_toolbar"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/colorPrimary">
+        android:id="@+id/widget_toolbar"
+        android:background="@color/backGround">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -29,13 +30,13 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/your_stocks"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title"/>
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Title"/>
     </LinearLayout>
 
     <ListView
         android:id="@+id/widget_listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backGround"></ListView>
+        android:background="@color/colorPrimary"></ListView>
 
 </LinearLayout>

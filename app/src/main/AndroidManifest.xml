@@ -28,6 +28,7 @@
         </activity>
         <activity
             android:name=".ui.StockDetailActivity"
+            android:parentActivityName=".ui.MyStocksActivity"
             android:label="@string/app_name" />
 
         <service
@@ -45,7 +46,7 @@
             android:authorities="com.sam_chordas.android.stockhawk.data.QuoteProvider"
             android:exported="false" />
 
-        <receiver android:name=".widget.StockWidget">
+        <receiver android:name=".widget.StockWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

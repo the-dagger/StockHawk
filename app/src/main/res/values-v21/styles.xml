@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="StockSymbolTextStyle">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Title</item>
+    </style>
+
+    <style name="StockDetailTextStyle">
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Title</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">16dp</item>
+    </style>
+</resources>

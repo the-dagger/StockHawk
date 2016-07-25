@@ -7,4 +7,5 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="lable">#6a84c3</color>
     <color name="textDetail">#C1C1C1</color>
+    <color name="backGround">#303030</color>
 </resources>

@@ -1,6 +1,7 @@
 package com.sam_chordas.android.stockhawk.widget;
 
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -11,14 +12,15 @@ import android.widget.RemoteViews;
 
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.service.StockWidgetService;
+import com.sam_chordas.android.stockhawk.ui.MyStocksActivity;
 
 /**
  * Implementation of App Widget functionality.
  */
-public class StockWidget extends AppWidgetProvider {
+public class StockWidgetProvider extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                        int appWidgetId) {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.stock_widget);
         // Instruct the widget manager to update the widget
@@ -27,6 +29,15 @@ public class StockWidget extends AppWidgetProvider {
         } else {
             setRemoteAdapterV11(context, views);
         }
+        Intent launchMain = new Intent(context, MyStocksActivity.class);
+//        Intent launchDetail = new Intent(context, StockDetailActivity.class);
+        PendingIntent pendingMainIntent = PendingIntent.getActivity(context, 0, launchMain, 0);
+//        PendingIntent pendingDetailIntent = TaskStackBuilder.create(context)
+//                .addNextIntentWithParentStack(launchDetail)
+//                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.widget_toolbar, pendingMainIntent);
+//        views.setOnClickPendingIntent(R.id.widget_listView,pendingDetailIntent);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.widget_listView);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
@@ -36,6 +47,7 @@ public class StockWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 

@@ -19,4 +19,5 @@
   <string name="annual_minimum">Annual Minimum</string>
   <string name="annual_max">Annual Maximum</string>
   <string name="your_stocks">Your Stocks</string>
+  <string name="stock_widget">Stock Widget</string>
 </resources>

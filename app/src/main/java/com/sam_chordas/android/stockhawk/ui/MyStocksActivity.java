@@ -134,7 +134,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                             new String[]{QuoteColumns.SYMBOL}, QuoteColumns.SYMBOL + "= ?",
                                             new String[]{input.toString()}, null);
                                     if (c.getCount() != 0) {
-                                        Snackbar.make(cView, "This stock is already saved!", Snackbar.LENGTH_SHORT).show();
+                                        Snackbar.make(cView, getResources().getString(R.string.already_saved), Snackbar.LENGTH_SHORT).show();
                                         return;
                                     } else {
                                         // Add the stock to DB

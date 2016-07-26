@@ -26,4 +26,6 @@
     <string name="made_by">Made By</string>
     <string name="dialogue_ok">OK</string>
     <string name="add_a_new_stock">Add a new Stock</string>
+    <string name="already_saved">This stock is already saved!</string>
+    <string name="eoor_fetching">Error fetching stock</string>
 </resources>

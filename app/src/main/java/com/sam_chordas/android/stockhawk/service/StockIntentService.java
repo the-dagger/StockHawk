@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.gcm.TaskParams;
+import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.ui.MyStocksActivity;
 
 /**
@@ -23,7 +24,6 @@ public class StockIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(StockIntentService.class.getSimpleName(), "Stock Intent Service");
         StockTaskService stockTaskService = new StockTaskService(this);
         Bundle args = new Bundle();
         if (intent.getStringExtra("tag").equals("add")) {
@@ -32,11 +32,11 @@ public class StockIntentService extends IntentService {
                 stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args));
             } catch (Exception e) {
                 e.printStackTrace();
-                MyStocksActivity.showSnackbar("Error fetching stock");
+                MyStocksActivity.showSnackbar(getString(R.string.eoor_fetching));
             }
         }
         else if(intent.getStringExtra("tag").equals("historical")){
-            Log.e("Historical Intent","true");
+//            Log.e("Historical Intent","true");
             args.putString("name",intent.getStringExtra("name"));
             args.putString("currdate",intent.getStringExtra("currdate"));
             args.putString("weekbef",intent.getStringExtra("weekbef"));{
@@ -44,7 +44,7 @@ public class StockIntentService extends IntentService {
                     stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    MyStocksActivity.showSnackbar("Error fetching stock");
+                    MyStocksActivity.showSnackbar(getResources().getString(R.string.eoor_fetching));
                 }
             }
 
@@ -54,7 +54,7 @@ public class StockIntentService extends IntentService {
                 stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args));
             } catch (Exception e) {
                 e.printStackTrace();
-                MyStocksActivity.showSnackbar("Error fetching stock");
+                MyStocksActivity.showSnackbar(getResources().getString(R.string.eoor_fetching));
             }
         }
         // We can call OnRunTask from the intent service to force it to run immediately instead of

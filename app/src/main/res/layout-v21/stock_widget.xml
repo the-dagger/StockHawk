@@ -28,7 +28,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
+            android:layout_marginStart="32dp"
+            android:gravity="center_vertical"
             android:text="@string/your_stocks"
             android:textAppearance="@android:style/TextAppearance.Material.Widget.ActionBar.Title"/>
     </LinearLayout>

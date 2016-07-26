@@ -14,6 +14,7 @@
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accent"
         fab:fab_colorRipple="@color/ripple"
+        android:contentDescription="@string/add_a_new_stock"
         fab:fab_shadow="true"
         fab:fab_type="normal"
         fab:layout_anchor="recycler_view"

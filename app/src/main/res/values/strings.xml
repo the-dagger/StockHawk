@@ -1,23 +1,29 @@
 <resources>
-  <string name="app_name">Stock Hawk</string>
-  <string name="name">Symbol</string>
-  <string name="action_example">Example action</string>
-  <string name="scrub_empty">Tap and hold the graph to scrub.</string>
-  <string name="scrub_format">Value: %1$s</string>
-  <string name="action_settings">Settings</string>
-  <string name="action_change_units">Change Units</string>
-  <string name="symbol_search">Symbol Search</string>
-  <string name="content_test">Search for a Stock Symbol</string>
-  <string name="input_hint">FB</string>
-  <string name="input_prefill"></string>
-  <string name="network_toast">Uh-oh! This app requires an internet connection</string>
-  <string name="minimum_price">Today\'s Minimum</string>
-  <string name="maximum_price">Today\'s Maximum</string>
-  <string name="current_price">Last Trade Price</string>
-  <string name="click_on_the_graph_to_view_stock_s_value">Click on graph to view the value</string>
-  <string name="stock_s_value_over_time">Stock\'s Value over Time</string>
-  <string name="annual_minimum">Annual Minimum</string>
-  <string name="annual_max">Annual Maximum</string>
-  <string name="your_stocks">Your Stocks</string>
-  <string name="stock_widget">Stock Widget</string>
+    <string name="app_name" translatable="false">Stock Hawk</string>
+    <string name="name">Symbol</string>
+    <string name="action_example">Example action</string>
+    <string name="scrub_empty">Tap and hold the graph to scrub.</string>
+    <string name="scrub_format" translatable="false">Value: %1$s</string>
+    <string name="action_settings">Info</string>
+    <string name="github" translatable="false"><a href="https://github.com/the-dagger">Fork me at!</a></string>
+    <string name="action_change_units">Change Units</string>
+    <string name="symbol_search">Symbol Search</string>
+    <string name="content_test">Search for a Stock Symbol</string>
+    <string name="input_hint" translatable="false">FB</string>
+    <string name="input_prefill" />
+    <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+    <string name="minimum_price">Today\'s Minimum</string>
+    <string name="maximum_price">Today\'s Maximum</string>
+    <string name="current_price">Last Trade Price</string>
+    <string name="click_on_the_graph_to_view_stock_s_value">Click on graph to view the value</string>
+    <string name="stock_s_value_over_time">Stock\'s Value over Time</string>
+    <string name="annual_minimum">Annual Minimum</string>
+    <string name="annual_max">Annual Maximum</string>
+    <string name="your_stocks">Your Stocks</string>
+    <string name="stock_widget">Stock Widget</string>
+    <string name="about">About</string>
+    <string name="author" translatable="false">Harshit Dwivedi</string>
+    <string name="made_by">Made By</string>
+    <string name="dialogue_ok">OK</string>
+    <string name="add_a_new_stock">Add a new Stock</string>
 </resources>

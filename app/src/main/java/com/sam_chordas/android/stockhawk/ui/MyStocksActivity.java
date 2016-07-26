@@ -122,7 +122,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 if (isConnected) {
                     new MaterialDialog.Builder(mContext).title(R.string.symbol_search)
                             .content(R.string.content_test)
+                            .titleColor(getResources().getColor(R.color.accent))
                             .inputType(InputType.TYPE_CLASS_TEXT)
+                            .backgroundColor(getResources().getColor(R.color.backGround))
                             .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
@@ -210,8 +212,14 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_about) {
+            new MaterialDialog.Builder(mContext)
+                    .title(R.string.made_by)
+                    .titleColor(getResources().getColor(R.color.accent))
+                    .backgroundColor(getResources().getColor(R.color.backGround))
+                    .content(getResources().getString(R.string.author))
+                    .positiveText(R.string.dialogue_ok)
+                    .show();
         }
 
         if (id == R.id.action_change_units) {

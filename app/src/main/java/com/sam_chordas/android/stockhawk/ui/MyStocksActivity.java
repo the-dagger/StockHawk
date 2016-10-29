@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -73,12 +74,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 activeNetwork.isConnectedOrConnecting();
         setContentView(R.layout.activity_my_stocks);
         cView = (CoordinatorLayout) findViewById(R.id.cLayout);
-        // The intent service is for executing immediate pulls from the Yahoo API
-        // GCMTaskService can only schedule tasks, they cannot execute immediately
+
         mServiceIntent = new Intent(this, StockIntentService.class);
         detailActivityIntent = new Intent(this, StockDetailActivity.class);
         if (savedInstanceState == null) {
-            // Run the initialize task service so that some stocks appear upon an empty database
             mServiceIntent.putExtra("tag", "init");
             if (isConnected) {
                 startService(mServiceIntent);
@@ -103,9 +102,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                         mCursor = mCursorAdapter.getCursor();
                         mCursor.moveToPosition(position);
                         Log.e("Name", mCursor.getString(mCursor.getColumnIndex(QuoteColumns.BIDPRICE)));
-                        detailActivityIntent.putExtra("currdate",nowDate);
-                        detailActivityIntent.putExtra("weekbef",weekBefDate);
-                        detailActivityIntent.putExtra("name",mCursor.getString(1));
+                        detailActivityIntent.putExtra("currdate", nowDate);
+                        detailActivityIntent.putExtra("weekbef", weekBefDate);
+                        detailActivityIntent.putExtra("name", mCursor.getString(1));
                         startActivity(detailActivityIntent);
                         mCursor.close();
                         //TODO:
@@ -127,21 +126,19 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                             .backgroundColor(getResources().getColor(R.color.backGround))
                             .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
                                 @Override
-                                public void onInput(MaterialDialog dialog, CharSequence input) {
-                                    // On FAB click, receive user input. Make sure the stock doesn't already exist
-                                    // in the DB and proceed accordingly
-                                    Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
+                                public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                    Cursor cursor = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
                                             new String[]{QuoteColumns.SYMBOL}, QuoteColumns.SYMBOL + "= ?",
                                             new String[]{input.toString()}, null);
-                                    if (c.getCount() != 0) {
+                                    assert cursor != null;
+                                    if (cursor.getCount() != 0) {
                                         Snackbar.make(cView, getResources().getString(R.string.already_saved), Snackbar.LENGTH_SHORT).show();
-                                        return;
                                     } else {
                                         // Add the stock to DB
                                         mServiceIntent.putExtra("tag", "add");
                                         mServiceIntent.putExtra("symbol", input.toString());
                                         startService(mServiceIntent);
-                                        c.close();
+                                        cursor.close();
                                     }
                                 }
                             })
@@ -246,10 +243,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursorAdapter.swapCursor(data);
         ComponentName name = new ComponentName(this, StockWidgetProvider.class);
-        int [] ids = AppWidgetManager.getInstance(this).getAppWidgetIds(name);
-        Intent intent = new Intent(this,StockWidgetProvider.class);
+        int[] ids = AppWidgetManager.getInstance(this).getAppWidgetIds(name);
+        Intent intent = new Intent(this, StockWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(intent);
         mCursor = data;
     }
@@ -267,5 +264,4 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     public static void showSnackbar(String string) {
         Snackbar.make(cView, string, Snackbar.LENGTH_SHORT).show();
     }
-
 }

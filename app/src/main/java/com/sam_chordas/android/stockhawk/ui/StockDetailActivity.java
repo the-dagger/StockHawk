@@ -35,35 +35,37 @@ public class StockDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stock_detail);
         LineChartView lineChartView = (LineChartView) findViewById(R.id.linechart);
         String stockSymbol = getIntent().getStringExtra("name");
-        Intent stockIntent = new Intent(this,StockIntentService.class);
-        stockIntent.putExtra("tag","historical");
-        stockIntent.putExtra("name",getIntent().getStringExtra("name"));
-        stockIntent.putExtra("currdate",getIntent().getStringExtra("currdate"));
-        stockIntent.putExtra("weekbef",getIntent().getStringExtra("weekbef"));
+        Intent stockIntent = new Intent(this, StockIntentService.class);
+        stockIntent.putExtra("tag", "historical");
+        stockIntent.putExtra("name", getIntent().getStringExtra("name"));
+        stockIntent.putExtra("currdate", getIntent().getStringExtra("currdate"));
+        stockIntent.putExtra("weekbef", getIntent().getStringExtra("weekbef"));
         startService(stockIntent);
-        Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
+        Cursor cursor = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
                 null,
                 QuoteColumns.SYMBOL + " = ? ",
                 new String[]{stockSymbol},
                 null);
-        if (c != null) {
-            c.moveToFirst();
+        if (cursor != null) {
+            cursor.moveToFirst();
         }
         ArrayList<Float> values = new ArrayList<>();
-        if (c != null) {
-            values.add(c.getFloat(c.getColumnIndex(QuoteColumns.BIDPRICE)));
-            while (c.moveToNext()) {
-                values.add(c.getFloat(c.getColumnIndex(QuoteColumns.BIDPRICE)));
+        if (cursor != null) {
+            values.add(cursor.getFloat(cursor.getColumnIndex(QuoteColumns.BIDPRICE)));
+            while (cursor.moveToNext()) {
+                values.add(cursor.getFloat(cursor.getColumnIndex(QuoteColumns.BIDPRICE)));
             }
         }
         String[] lable = new String[values.size()];
         float[] stockArr = new float[values.size()];
-        Log.e("size", String.valueOf(values.size()));
+
+        Log.d("size", String.valueOf(values.size()));
+
         for (int i = 0; i < values.size(); i++) {
             stockArr[i] = values.get(i);
             lable[i] = "";
-            Log.e("value", String.valueOf(values.get(i)));
-            Log.e("stockarr", String.valueOf(stockArr[i]));
+            Log.d("value", String.valueOf(values.get(i)));
+            Log.d("stockarr", String.valueOf(stockArr[i]));
         }
         /** In case the number of entries stored in database is greater than 15,
          * trim it to use the last 15 entries
@@ -107,22 +109,23 @@ public class StockDetailActivity extends AppCompatActivity {
         lineChartView.addData(dataset);
         lineChartView.show();
         TextView stockId = (TextView) findViewById(R.id.stockName);
-        c.moveToLast();
-        stockId.append(c.getString(c.getColumnIndex(QuoteColumns.NAME)));
-        TextView lastTrade = (TextView) findViewById(R.id.lastTrade);
-        lastTrade.append(c.getString(c.getColumnIndex(QuoteColumns.LASTTRADE)));
-        TextView todayMax = (TextView) findViewById(R.id.maxPrice);
-        todayMax.append(c.getString(c.getColumnIndex(QuoteColumns.DAYSHIGH)));
-        TextView todayMin = (TextView) findViewById(R.id.minPrice);
-        todayMin.append(c.getString(c.getColumnIndex(QuoteColumns.DAYSLOW)));
-        TextView annualMin = (TextView) findViewById(R.id.annual_min);
-        annualMin.append(c.getString(c.getColumnIndex(QuoteColumns.YEARLOW)));
-        TextView annualMax = (TextView) findViewById(R.id.annual_max);
-        annualMax.append(c.getString(c.getColumnIndex(QuoteColumns.DAYSHIGH)));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(c.getString(c.getColumnIndex(QuoteColumns.SYMBOL)).toUpperCase());
-        c.close();
+        if (cursor != null) {
+
+            cursor.moveToLast();
+            stockId.append(cursor.getString(cursor.getColumnIndex(QuoteColumns.NAME)));
+            TextView lastTrade = (TextView) findViewById(R.id.lastTrade);
+            lastTrade.append(cursor.getString(cursor.getColumnIndex(QuoteColumns.LASTTRADE)));
+            TextView todayMax = (TextView) findViewById(R.id.maxPrice);
+            todayMax.append(cursor.getString(cursor.getColumnIndex(QuoteColumns.DAYSHIGH)));
+            TextView todayMin = (TextView) findViewById(R.id.minPrice);
+            todayMin.append(cursor.getString(cursor.getColumnIndex(QuoteColumns.DAYSLOW)));
+            TextView annualMin = (TextView) findViewById(R.id.annual_min);
+            annualMin.append(cursor.getString(cursor.getColumnIndex(QuoteColumns.YEARLOW)));
+            TextView annualMax = (TextView) findViewById(R.id.annual_max);
+            annualMax.append(cursor.getString(cursor.getColumnIndex(QuoteColumns.DAYSHIGH)));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(cursor.getString(cursor.getColumnIndex(QuoteColumns.SYMBOL)).toUpperCase());
+            cursor.close();
+        }
     }
-
-
 }
